@@ -1,8 +1,7 @@
 blueprint:
   name: "Milton: Contact Sensors"
   description: |-
-    Presence-sensor-only blueprint for Aqara (e.g., FP2) or any binary_sensor that reports
-    presence, occupancy, or motion. Provides optional spoken announcements, optional mobile
+    Blueprint for contact sensors. Provides optional spoken announcements, optional mobile
     notifications, and optional device control (turn on/off lights or switches) with per-direction
     hold times so actions feel natural and reliable.
 
