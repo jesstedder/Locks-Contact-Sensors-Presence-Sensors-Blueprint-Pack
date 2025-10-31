@@ -331,7 +331,10 @@ action:
                       sequence:
                         - service: "{{ 'notify.mobile_app_' ~ (device_attr(repeat.item, 'name') | string | lower | regex_replace('[^a-z0-9]+','_')) }}"
                           data:
-                            message: "{{ final_opened }}"
+                            message: TTS
+                            data:
+                              tts_text: "{{ final_opened }}"
+
 
           # Repeat reminder while OPEN (independent toggle)
           - choose:
@@ -449,4 +452,6 @@ action:
                       sequence:
                         - service: "{{ 'notify.mobile_app_' ~ (device_attr(repeat.item, 'name') | string | lower | regex_replace('[^a-z0-9]+','_')) }}"
                           data:
-                            message: "{{ final_closed }}"
+                            message: TTS
+                            data:
+                              tts_text: "{{ final_closed }}"
