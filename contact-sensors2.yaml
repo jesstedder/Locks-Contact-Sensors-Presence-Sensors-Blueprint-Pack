@@ -174,6 +174,24 @@ blueprint:
           domain:
             - light
             - switch
+    notify_enabled:
+      name: Send mobile notifications
+      description: |-
+        If on, send notifications to selected Home Assistant Companion App devices.
+      default: false
+      selector:
+        boolean: {}
+
+    notify_devices:
+      name: Companion App devices (auto-discovered)
+      description: |-
+        Choose one or more devices with the Home Assistant Companion App installed.
+        Notifications will be sent to each device’s mobile_app notify service.
+      default: []
+      selector:
+        device:
+          multiple: true
+          integration: mobile_app
 
 mode: queued
 max: 2
@@ -224,11 +242,16 @@ action:
       reminder_interval: !input reminder_interval
       open_turn_on_entities: !input open_turn_on_entities
       close_turn_off_entities: !input close_turn_off_entities
+      notify_enabled: !input notify_enabled
+      notify_devices: !input notify_devices
 
       # Can we speak at all? (independent of which feature is toggled)
       has_tts: >-
         {{ (players | length > 0)
            and (tts_engine_ent is string and tts_engine_ent|length > 0) }}
+
+      can_notify: >-
+        {{ notify_enabled and (notify_devices | length) > 0 }}
 
       # Feature-specific gates
       can_tts_openclose: "{{ has_tts and announce_openclose }}"
@@ -297,6 +320,18 @@ action:
                           cache: !input tts_cache
                           media_player_entity_id: !input media_players
             default: []
+          # Notifications
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ can_notify }}"
+                sequence:
+                  - repeat:
+                      for_each: "{{ notify_devices }}"
+                      sequence:
+                        - service: "{{ 'notify.mobile_app_' ~ (device_attr(repeat.item, 'name') | string | lower | regex_replace('[^a-z0-9]+','_')) }}"
+                          data:
+                            message: "{{ final_opened }}"
 
           # Repeat reminder while OPEN (independent toggle)
           - choose:
@@ -350,6 +385,7 @@ action:
                                 media_player_entity_id: !input media_players
             default: []
 
+
       # ---------- SENSOR CLOSED ----------
       - conditions:
           - condition: trigger
@@ -402,3 +438,15 @@ action:
                           cache: !input tts_cache
                           media_player_entity_id: !input media_players
             default: []
+          # Notifications
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ can_notify }}"
+                sequence:
+                  - repeat:
+                      for_each: "{{ notify_devices }}"
+                      sequence:
+                        - service: "{{ 'notify.mobile_app_' ~ (device_attr(repeat.item, 'name') | string | lower | regex_replace('[^a-z0-9]+','_')) }}"
+                          data:
+                            message: "{{ final_closed }}"
