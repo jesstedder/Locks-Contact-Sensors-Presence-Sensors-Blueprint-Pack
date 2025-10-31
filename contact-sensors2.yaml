@@ -218,6 +218,8 @@ action:
       # Area → room label (no friendly names for TTS)
       room_for_sensor: "{{ area_name(trigger.entity_id) or 'Door' }}"
 
+      ## reimport please!
+
       # Opening type controls noun choice
       type_in: !input opening_type
 
