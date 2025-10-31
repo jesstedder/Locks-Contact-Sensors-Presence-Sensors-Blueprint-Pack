@@ -38,8 +38,6 @@ blueprint:
         entity:
           domain: binary_sensor
           device_class:
-            - occupancy
-            - motion
             - door
             - opening
             - window
@@ -192,7 +190,7 @@ trigger:
   - id: sensor_open
     platform: state
     entity_id: !input contact_sensors
-    to: "open"
+    to: "opened"
 
   - id: sensor_closed
     platform: state
