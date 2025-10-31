@@ -212,7 +212,8 @@ condition: []
 
 action:
   - variables:
-      sensor_ent: !input door_sensor
+      #sensor_ent: !input door_sensor
+      sensor_ent: trigger.entity_id
 
       # Area → room label (no friendly names for TTS)
       room_for_sensor: "{{ area_name(sensor_ent) or 'Door' }}"
@@ -351,7 +352,8 @@ action:
                         # Wait for close OR timeout → speak if still open
                         - wait_for_trigger:
                             - platform: state
-                              entity_id: !input door_sensor
+                              # entity_id: !input door_sensor
+                              entity_id: trigger.entity_id
                               to: "off"
                           timeout:
                             seconds: !input reminder_interval
