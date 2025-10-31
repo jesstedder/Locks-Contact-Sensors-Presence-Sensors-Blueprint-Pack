@@ -1,8 +1,6 @@
 blueprint:
   name: "Milton: Contact Sensors"
   description: |-
-    ![Aqara](https://raw.githubusercontent.com/zodyking/Locks-Contact-Sensors-Presence-Sensors-Blueprint-Pack/refs/heads/main/Image3.png)
-
     Presence-sensor-only blueprint for Aqara (e.g., FP2) or any binary_sensor that reports
     presence, occupancy, or motion. Provides optional spoken announcements, optional mobile
     notifications, and optional device control (turn on/off lights or switches) with per-direction
