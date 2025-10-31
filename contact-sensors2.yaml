@@ -39,6 +39,7 @@ blueprint:
             - door
             - opening
             - window
+          multiple: true
 
     opening_type:
       name: Opening type (affects TTS wording)
