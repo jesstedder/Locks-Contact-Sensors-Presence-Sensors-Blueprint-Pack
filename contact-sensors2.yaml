@@ -1,5 +1,5 @@
 blueprint:
-  name: "Aqara: Contact Sensors"
+  name: "Milton: Contact Sensors"
   description: |-
     Sensor-only blueprint for door/window contact sensors with optional spoken announcements,
     “still open” reminders, and optional actions when the sensor opens.
